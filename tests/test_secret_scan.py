@@ -26,3 +26,7 @@ def test_scan_clean_text_returns_empty():
 
 def test_entropy_of_repeated_char_is_zero():
     assert ss.shannon_entropy("aaaa") == 0.0
+
+def test_scan_detects_openai_project_key():
+    f = ss.scan("token sk-proj-abcdefghijklmnop here")
+    assert any(x["type"] == "openai_project_key" for x in f)

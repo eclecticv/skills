@@ -14,6 +14,7 @@ import sys
 SECRET_PATTERNS = {
     "aws_access_key": re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
     "anthropic_key": re.compile(r"\bsk-ant-[A-Za-z0-9_\-]{20,}\b"),
+    "openai_project_key": re.compile(r"\bsk-(?:proj|svcacct|admin)-[A-Za-z0-9_\-]{10,}\b"),
     "openai_key": re.compile(r"\bsk-[A-Za-z0-9]{20,}\b"),
     "vcs_token": re.compile(r"\b(?:ghp|gho|github_pat|xoxb|xoxp)_[A-Za-z0-9_\-]{10,}\b"),
     "bearer": re.compile(r"\bBearer\s+[A-Za-z0-9._\-]{16,}\b"),

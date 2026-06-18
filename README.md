@@ -145,7 +145,7 @@ These were deferred from v1 and are planned for a future release:
 
 ```bash
 pip install pytest          # or: pip install -r requirements-dev.txt
-python3 -m pytest -v        # 13 tests across capture_session, secret_scan, scan_commits
+python3 -m pytest -v        # 15 tests across capture_session, secret_scan, scan_commits
 ```
 
 All scripts are Python 3 stdlib-only. No external dependencies at runtime.
