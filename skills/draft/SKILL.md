@@ -126,22 +126,28 @@ A draft is not ready until its scan returns exit code 0.
 
 ## Step 7: Humanize
 
-For each draft that passed the privacy gate, invoke the `humanizer` skill in detect mode:
+For each draft that passed the privacy gate, follow this procedure exactly. Flag names and modes below match the `humanizer` skill's own SKILL.md — consult that file if an argument spelling is ever in doubt.
 
-```
-Skill: humanizer
-Mode: detect
-Text: <draft text>
-```
+**7a. Detect pass.** Invoke the `humanizer` skill via the Skill tool:
+- skill name: `humanizer`
+- args: the draft text, `--score`, `--purpose marketing`
 
-If the returned AI-tell score is greater than the configured `humanizer_threshold`:
-- Run the humanizer in rewrite/iterate mode until the score is ≤ threshold.
-- Re-run detect after each rewrite to confirm the score.
+Parse the `[Score: NN/100]` header from the response. This is the AI-tell score (lower = more human).
 
-If the `humanizer` skill is not installed or returns an error:
-> Warning: humanizer skill not found. Draft will be marked "not humanized". Install the humanizer dependency and re-run `/build-in-public:draft` before publishing.
+**7b. Rewrite if needed.** If score > `humanizer_threshold` (from config, default 25):
+1. Invoke `humanizer` via the Skill tool again with the draft text, mode `rewrite`, `--iterate 3`, `--purpose marketing`, and `--voice <voice_preset>` if a voice profile is configured.
+2. The skill runs up to 3 detect→rewrite→detect loops internally and returns the best (lowest-scoring) version.
+3. Re-read the score from the returned `[Score: NN/100]` header.
+4. If score is still > threshold after the iterate run, use the lowest-scoring version produced; log a note that the threshold was not met.
 
-Continue with draft creation but set `humanizer_score: "not_run"` in the frontmatter.
+**7c. Record score.** Set `humanizer_score` in the draft frontmatter to the final integer score.
+
+**7d. Absent-dependency fallback.** If the Skill tool reports no `humanizer` skill is available (skill not found / not installed):
+- WARN the user:
+  > Warning: `humanizer` skill is not installed. The de-AI pass did not run. Install the humanizer dependency and re-run `/build-in-public:draft` before publishing.
+- Set `humanizer_score: null` in the frontmatter.
+- Add `not-humanized: true` to the frontmatter so the skipped pass is unambiguous.
+- Continue writing the draft file — do NOT silently skip the warning or omit the frontmatter flags.
 
 ---
 
@@ -192,7 +198,7 @@ Present a chat summary in this format:
 
 Drafts written to: `<output_dir>`
 
-Next step: review the files above, edit as needed, then run `/build-in-public:publish` to queue them.
+Tell the human: review the files above, edit as needed, then run `/build-in-public:publish` to queue them.
 
 ---
 
