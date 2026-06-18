@@ -106,16 +106,16 @@ Resolve the channel ID for this platform from config (use `buffer_channel_id` fo
 Run:
 
 ```bash
-curl -s -X POST "https://api.bufferapp.com/1/updates/create.json" \
+curl -s -X POST https://mcp.buffer.com/mcp \
   -H "Authorization: Bearer <buffer_token>" \
-  -d "profile_ids[]=<buffer_channel_id>" \
-  -d "text=<URL-encoded post body>" \
-  -d "shorten=false"
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"create_post","arguments":{"organizationId":"<buffer_org_id>","channelIds":["<buffer_channel_id>"],"text":"<post body>","schedulingType":"addToQueue"}}}'
 ```
 
 Build this command dynamically using the values from config. Do NOT hardcode any value.
 
-If the HTTP response contains `"success":true` and an `id` field, capture `id` as `post_id`. Proceed to Step 5.
+If the HTTP response contains a post id in the result, capture it as `post_id`. Proceed to Step 5.
 
 If the response contains an error or `"success":false`, surface it verbatim:
 > Buffer HTTP error: <verbatim response body>
@@ -141,16 +141,16 @@ echo "<post body>" | xclip -selection clipboard 2>/dev/null \
 
 Run the copy command. Confirm it exited with code 0.
 
-If the copy fails, surface the error:
-> Clipboard copy failed: <error>. Here is the post text — copy it manually:
+If the copy command exits non-zero, surface the error verbatim AND surface the post body:
+> Clipboard copy failed: <verbatim error>. Here is the post text — copy it manually:
 > <post body>
 
-Set `post_id` to `null`.
+Do NOT proceed to Step 5. Do NOT append to `posted.jsonl`. STOP.
 
-Tell the user:
+If the copy command exits 0, tell the user:
 > Post copied to clipboard. Open <platform>'s compose window and paste it in.
 
-Proceed to Step 5 (with `post_id: null`).
+Set `post_id` to `null`. Proceed to Step 5 (with `post_id: null`).
 
 ---
 
