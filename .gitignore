@@ -3,3 +3,5 @@ node_modules/
 *.local.md
 journal.jsonl
 posted.jsonl
+__pycache__/
+.pytest_cache/

@@ -1,0 +1,7 @@
+{
+  "name": "build-in-public",
+  "version": "0.1.0",
+  "description": "Observes your Claude Code sessions and git commits, surfaces share-worthy moments, and drafts privacy-gated, algorithm-tuned X and LinkedIn posts in your voice. Never auto-publishes.",
+  "author": { "name": "Build in Public" },
+  "keywords": ["build-in-public", "social", "linkedin", "twitter", "x", "content", "devrel"]
+}
