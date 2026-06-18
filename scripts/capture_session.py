@@ -33,7 +33,7 @@ def detect_signals(text):
 
 def build_digest(hook_input, transcript_text, now=None):
     now = now or datetime.now(timezone.utc)
-    cwd = hook_input.get("cwd", "") or ""
+    cwd = hook_input.get("cwd") or os.getcwd()
     return {
         "ts": now.isoformat(),
         "session_id": hook_input.get("session_id", ""),

@@ -24,6 +24,13 @@ def test_build_digest_extracts_repo_from_cwd():
     assert d["session_id"] == "abc"
     assert d["signals"] == ["shipped"]
 
+def test_build_digest_falls_back_to_process_cwd_when_absent():
+    import os
+    d = cs.build_digest({"session_id": "x"}, "shipped it")
+    assert d["cwd"] == os.getcwd()
+    assert d["repo"] == os.path.basename(os.getcwd())
+
+
 def test_append_journal_writes_one_line_each(tmp_path):
     jp = tmp_path / "journal.jsonl"
     cs.append_journal({"ts": "x", "signals": ["shipped"]}, path=jp)

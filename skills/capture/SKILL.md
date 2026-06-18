@@ -23,14 +23,7 @@ echo "TRANSCRIPT: ${CLAUDE_TRANSCRIPT_PATH:-}"
 
 ## Step 2: Invoke the capture script
 
-Pipe a JSON object to the capture script via stdin. Build the JSON with the values from Step 1:
-
-```bash
-echo '{"session_id":"<session_id>","cwd":"<cwd>","transcript_path":"<transcript_path>"}' \
-  | python3 "${CLAUDE_PLUGIN_ROOT}/scripts/capture_session.py"
-```
-
-Substitute `<session_id>`, `<cwd>`, and `<transcript_path>` with the actual values. Use `jq -n` or Python's `json.dumps` if any value contains special characters that would break the JSON literal:
+Pipe a JSON object to the capture script via stdin. Build the JSON safely using Python's `json.dumps` to handle any special characters in the values:
 
 ```bash
 python3 -c "

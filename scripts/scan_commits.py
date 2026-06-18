@@ -39,7 +39,10 @@ def git_log(repo, since):
     for line in out.stdout.splitlines():
         if not line.strip():
             continue
-        h, author, date, subject = line.split("\x1f")
+        parts = line.split("\x1f", 3)
+        if len(parts) != 4:
+            continue
+        h, author, date, subject = parts
         commits.append({
             "repo": Path(repo).name,
             "hash": h,
