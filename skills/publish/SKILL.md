@@ -64,15 +64,23 @@ Use `AskUserQuestion` to ask for approval. Wait for the response.
 
 Read `~/.build-in-public/config.md`. Parse the YAML frontmatter to extract:
 - `buffer_org_id` — Buffer organization ID (optional)
-- `buffer_channel_id` — Buffer channel ID for this platform (optional; may be keyed by platform, e.g., `buffer_channel_id_linkedin`, `buffer_channel_id_x`)
-- `buffer_token` — Buffer personal access token (optional)
+- `buffer_channel_id_linkedin` or `buffer_channel_id_x` — Buffer channel ID for this platform (use the key matching the draft's `platform` value)
+- `buffer_token_path` — path to a file containing the Buffer personal access token (optional)
 
 If the file does not exist, treat all Buffer config values as absent (no scheduler configured).
 
+Resolve the channel ID for this platform: read `buffer_channel_id_<platform>` from config (e.g., `buffer_channel_id_linkedin` for a LinkedIn draft, `buffer_channel_id_x` for an X draft).
+
+Obtain the Buffer token: if `buffer_token_path` is present in config, read the token by running:
+```bash
+buffer_token=$(cat "$buffer_token_path")
+```
+If the file cannot be read, surface the error verbatim and STOP — do NOT proceed without a valid token.
+
 Determine the scheduling route:
-- **Buffer-MCP route:** `buffer_org_id` AND `buffer_channel_id` (for this platform) are both present.
-- **HTTP fallback route:** `buffer_token` AND `buffer_org_id` AND `buffer_channel_id` are present, but the Buffer MCP tool `mcp__buffer__create_post` is not available.
-- **Clipboard route:** none of the above Buffer creds are configured.
+- **Buffer-MCP route:** `buffer_org_id` AND the platform channel id (`buffer_channel_id_<platform>`) AND `buffer_token_path` are all present and the token file was read successfully.
+- **HTTP fallback route:** Same credentials present and token read successfully, but the Buffer MCP tool `mcp__buffer__create_post` is not available.
+- **Clipboard route:** `buffer_org_id` or the platform channel id or `buffer_token_path` is absent from config (no scheduler configured).
 
 ---
 
@@ -82,7 +90,7 @@ Determine the scheduling route:
 
 Call the `mcp__buffer__create_post` tool with:
 - `organizationId`: value of `buffer_org_id` from config
-- `channelIds`: array containing the single `buffer_channel_id` for this platform from config
+- `channelIds`: array containing the single `buffer_channel_id_<platform>` value resolved in Step 3
 - `text`: the post body (extracted in Step 1)
 - `schedulingType`: `"addToQueue"`
 
@@ -99,18 +107,18 @@ Do NOT proceed to Step 5. Do NOT append to `posted.jsonl`. STOP.
 
 ### Route B: Buffer HTTP fallback
 
-If the Buffer MCP tool is not available but Buffer creds (`buffer_token`, `buffer_org_id`, `buffer_channel_id`) are all configured, use the Buffer API directly.
+If the Buffer MCP tool is not available but Buffer creds (`buffer_token_path`, `buffer_org_id`, `buffer_channel_id_<platform>`) are all configured and the token was read successfully in Step 3, use the Buffer API directly.
 
-Resolve the channel ID for this platform from config (use `buffer_channel_id` for the post's `platform` field — check `buffer_channel_id_<platform>` first, then fall back to `buffer_channel_id`).
+Use the channel ID (`buffer_channel_id_<platform>`) and token (`$buffer_token`) resolved in Step 3.
 
 Run:
 
 ```bash
 curl -s -X POST https://mcp.buffer.com/mcp \
-  -H "Authorization: Bearer <buffer_token>" \
+  -H "Authorization: Bearer $buffer_token" \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, text/event-stream" \
-  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"create_post","arguments":{"organizationId":"<buffer_org_id>","channelIds":["<buffer_channel_id>"],"text":"<post body>","schedulingType":"addToQueue"}}}'
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"create_post","arguments":{"organizationId":"<buffer_org_id>","channelIds":["<buffer_channel_id_<platform>>"],"text":"<post body>","schedulingType":"addToQueue"}}}'
 ```
 
 Build this command dynamically using the values from config. Do NOT hardcode any value.

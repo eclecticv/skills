@@ -14,8 +14,8 @@ Read `~/.build-in-public/config.md`. Parse the YAML frontmatter to extract:
 - `output_dir` — where to write draft files
 - `platforms` — list of target platforms (e.g., `[x, linkedin]`)
 - `voice_preset` — voice style identifier
-- `calibration` — optional calibration notes
-- `cadence` — posting cadence (informational; do not enforce here)
+- `voice_calibration_samples` — optional calibration notes
+- `cadence_per_week` / `cadence_day` — posting cadence (informational; do not enforce here)
 - `humanizer_threshold` — AI-tell score threshold (default: 25 if absent)
 - `repo_allowlist` — list of repo paths to scan (empty list is valid)
 - `denylist` — list of terms to block
@@ -88,7 +88,7 @@ Read the platform references:
 - `${CLAUDE_PLUGIN_ROOT}/references/linkedin-algo.md` — LinkedIn rules and checklist
 - `${CLAUDE_PLUGIN_ROOT}/references/x-algo.md` — X rules and checklist
 
-Apply every rule from the relevant reference before finalising each draft. Write in the configured `voice_preset` and `calibration`.
+Apply every rule from the relevant reference before finalising each draft. Write in the configured `voice_preset` and `voice_calibration_samples`.
 
 **Receipts are mandatory.** Every post must embed the real receipt:
 - For a commit: `Commit: <short-hash> — "<subject line>"`
