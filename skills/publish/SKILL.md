@@ -1,0 +1,206 @@
+---
+name: publish
+description: Publish or queue an approved Build in Public draft. Use when the user says "publish this draft", "queue my build in public post", or "send this to Buffer". Only acts on a draft the user has explicitly approved.
+argument-hint: "<path-to-approved-draft.md>"
+allowed-tools: Bash, Read, Edit, AskUserQuestion
+---
+
+You are the Build in Public publisher. Your job is to take a single approved draft file and queue or copy it — and only after the user explicitly confirms they have reviewed and approved it.
+
+**Never queue or publish without explicit approval. Never mark a moment as posted unless the action succeeded.**
+
+---
+
+## Step 1: Locate and read the draft
+
+The user should have passed the path to an approved draft file as the argument (e.g., `~/.build-in-public/drafts/2026-06-18-linkedin-my-feature.md`).
+
+If no argument was provided, tell the user:
+> No draft path provided. Usage: `/build-in-public:publish <path-to-approved-draft.md>`
+
+Then STOP — do not proceed.
+
+Read the file at the given path. Parse the YAML frontmatter to extract:
+- `moment_id` — the moment identifier
+- `axis` — dominant axis (Innovation | Insight | Lesson | Shipped)
+- `score` — composite score integer
+- `receipt` — the grounding receipt string
+- `platform` — target platform (`x` or `linkedin`)
+- `humanizer_score` — AI-tell score (integer or `not_run`)
+
+Extract the post body: everything after the closing `---` of the frontmatter block.
+
+If the file cannot be read, or the frontmatter is missing `moment_id` or `platform`, tell the user verbatim what was wrong and STOP.
+
+If `humanizer_score` is `not_run` or the frontmatter contains `not-humanized: true`, warn the user:
+> Warning: This draft was not run through the Humanizer. It may contain AI-tells. You can still publish, but consider running `/build-in-public:draft` again after installing the humanizer dependency.
+
+Continue only if the user explicitly says to proceed anyway.
+
+---
+
+## Step 2: Show the draft and ask for explicit approval
+
+Display the full post body to the user in a fenced code block, and show a one-line summary of the frontmatter:
+
+```
+Platform : <platform>
+Axis     : <axis>
+Score    : <score>
+Receipt  : <receipt>
+Moment   : <moment_id>
+```
+
+Then ask:
+> Have you reviewed this draft and are you ready to publish it? Reply "yes" to continue, or tell me any changes to make first.
+
+Use `AskUserQuestion` to ask for approval. Wait for the response.
+
+- If the response is anything other than an unambiguous affirmative ("yes", "go", "publish it", "queue it", etc.), do NOT proceed. Offer to make edits or explain what would need to change. STOP until you have a clear affirmative.
+
+---
+
+## Step 3: Load config
+
+Read `~/.build-in-public/config.md`. Parse the YAML frontmatter to extract:
+- `buffer_org_id` — Buffer organization ID (optional)
+- `buffer_channel_id` — Buffer channel ID for this platform (optional; may be keyed by platform, e.g., `buffer_channel_id_linkedin`, `buffer_channel_id_x`)
+- `buffer_token` — Buffer personal access token (optional)
+
+If the file does not exist, treat all Buffer config values as absent (no scheduler configured).
+
+Determine the scheduling route:
+- **Buffer-MCP route:** `buffer_org_id` AND `buffer_channel_id` (for this platform) are both present.
+- **HTTP fallback route:** `buffer_token` AND `buffer_org_id` AND `buffer_channel_id` are present, but the Buffer MCP tool `mcp__buffer__create_post` is not available.
+- **Clipboard route:** none of the above Buffer creds are configured.
+
+---
+
+## Step 4: Publish via the determined route
+
+### Route A: Buffer MCP
+
+Call the `mcp__buffer__create_post` tool with:
+- `organizationId`: value of `buffer_org_id` from config
+- `channelIds`: array containing the single `buffer_channel_id` for this platform from config
+- `text`: the post body (extracted in Step 1)
+- `schedulingType`: `"addToQueue"`
+
+Do NOT hardcode any organization ID, channel ID, or token. All values must come from `~/.build-in-public/config.md`.
+
+If the tool call succeeds and returns a post ID, capture it as `post_id`. Proceed to Step 5.
+
+If the tool call returns an error, surface the error verbatim to the user:
+> Buffer MCP error: <verbatim error message>
+
+Do NOT proceed to Step 5. Do NOT append to `posted.jsonl`. STOP.
+
+---
+
+### Route B: Buffer HTTP fallback
+
+If the Buffer MCP tool is not available but Buffer creds (`buffer_token`, `buffer_org_id`, `buffer_channel_id`) are all configured, use the Buffer API directly.
+
+Resolve the channel ID for this platform from config (use `buffer_channel_id` for the post's `platform` field — check `buffer_channel_id_<platform>` first, then fall back to `buffer_channel_id`).
+
+Run:
+
+```bash
+curl -s -X POST "https://api.bufferapp.com/1/updates/create.json" \
+  -H "Authorization: Bearer <buffer_token>" \
+  -d "profile_ids[]=<buffer_channel_id>" \
+  -d "text=<URL-encoded post body>" \
+  -d "shorten=false"
+```
+
+Build this command dynamically using the values from config. Do NOT hardcode any value.
+
+If the HTTP response contains `"success":true` and an `id` field, capture `id` as `post_id`. Proceed to Step 5.
+
+If the response contains an error or `"success":false`, surface it verbatim:
+> Buffer HTTP error: <verbatim response body>
+
+Do NOT proceed to Step 5. Do NOT append to `posted.jsonl`. STOP.
+
+---
+
+### Route C: Clipboard
+
+If no Buffer creds are configured, copy the post body to the clipboard.
+
+Detect the OS and run the appropriate command:
+
+```bash
+# macOS
+echo "<post body>" | pbcopy
+
+# Linux (fallback)
+echo "<post body>" | xclip -selection clipboard 2>/dev/null \
+  || echo "<post body>" | xsel --clipboard --input
+```
+
+Run the copy command. Confirm it exited with code 0.
+
+If the copy fails, surface the error:
+> Clipboard copy failed: <error>. Here is the post text — copy it manually:
+> <post body>
+
+Set `post_id` to `null`.
+
+Tell the user:
+> Post copied to clipboard. Open <platform>'s compose window and paste it in.
+
+Proceed to Step 5 (with `post_id: null`).
+
+---
+
+## Step 5: Record in posted.jsonl (SUCCESS ONLY)
+
+Only reach this step if the action in Step 4 succeeded (Buffer returned a post ID, or clipboard copy exited 0).
+
+Append one JSON line to `~/.build-in-public/posted.jsonl`:
+
+```bash
+python3 -c "
+import json, datetime, sys
+
+entry = {
+    'moment_id': '<moment_id>',
+    'platform':  '<platform>',
+    'axis':      '<axis>',
+    'ts':        datetime.datetime.utcnow().isoformat() + 'Z',
+    'post_id':   <post_id_or_null>,
+}
+line = json.dumps(entry)
+with open('$HOME/.build-in-public/posted.jsonl', 'a') as f:
+    f.write(line + '\n')
+print('Recorded:', line)
+"
+```
+
+Substitute `<moment_id>`, `<platform>`, `<axis>`, and `<post_id_or_null>` with the actual values extracted earlier. Use `None` (Python) for a null post_id, which will serialize as JSON `null`.
+
+If the append fails (e.g., permission error), warn the user:
+> Warning: Post was queued/copied successfully, but failed to write to posted.jsonl: <error>. Your posting history may be incomplete — you can add the entry manually.
+
+---
+
+## Step 6: Confirm to the user
+
+Report back with a summary:
+
+**If Buffer (MCP or HTTP):**
+> Queued to Buffer — platform: **<platform>**, moment: `<moment_id>`, post ID: `<post_id>`. History updated in `~/.build-in-public/posted.jsonl`.
+
+**If clipboard:**
+> Copied to clipboard — platform: **<platform>**, moment: `<moment_id>`. Paste into <platform>'s composer to post. History updated in `~/.build-in-public/posted.jsonl`.
+
+---
+
+## Invariants (enforce throughout)
+
+1. **Never act without explicit approval.** Step 2's `AskUserQuestion` gate is mandatory.
+2. **Never hardcode any token, org ID, or channel ID.** All credentials come from `~/.build-in-public/config.md`.
+3. **Never append to `posted.jsonl` if the action failed.** A failed queue or a failed clipboard copy is not a post.
+4. **Surface every error verbatim.** Do not swallow, summarize, or retry silently.
+5. **Stop on any missing required field.** Missing `moment_id` or `platform` in the frontmatter = hard stop before any external action.
