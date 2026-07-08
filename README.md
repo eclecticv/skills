@@ -70,7 +70,7 @@ A single command produces a structured markdown report with:
 
 ```bash
 # In Claude Code:
-/plugin marketplace add eclecticv/fix-my-positioning
+/plugin marketplace add eclecticv/andorlabs
 /plugin install fix-my-positioning@andorlabs
 ```
 
@@ -150,7 +150,6 @@ The pipeline delegates homepage extraction to a sub-agent so raw HTML never poll
 ```
 fix-my-positioning/
 ├── .claude-plugin/
-│   ├── marketplace.json          (andorlabs marketplace entry)
 │   └── plugin.json               (manifest)
 ├── agents/
 │   └── positioning-extractor.md  (homepage fetch + Fletch detector module)
@@ -199,4 +198,4 @@ MIT — see [LICENSE](LICENSE).
 
 ---
 
-*Built by [And/or Labs](https://andorlabs.com) — distributed via the andorlabs Claude Code marketplace.*
+*Built by [And/or Labs](https://andorlabs.ca) — distributed via the andorlabs Claude Code marketplace.*
