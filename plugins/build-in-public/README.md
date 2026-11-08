@@ -50,7 +50,8 @@ Drafts are stored as plain markdown with YAML frontmatter. You review them, edit
 1. Install this plugin via Claude Code:
 
    ```
-   claude plugin install <owner>/build-in-public
+   /plugin marketplace add eclecticv/skills
+   /plugin install build-in-public@andorlabs
    ```
 
 2. Run setup:

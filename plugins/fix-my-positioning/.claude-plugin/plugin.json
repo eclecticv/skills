@@ -6,8 +6,8 @@
     "name": "And/or Labs",
     "email": "vj@andorlabs.ca"
   },
-  "homepage": "https://github.com/eclecticv/fix-my-positioning",
-  "repository": "https://github.com/eclecticv/fix-my-positioning",
+  "homepage": "https://github.com/eclecticv/skills/tree/main/plugins/fix-my-positioning",
+  "repository": "https://github.com/eclecticv/skills",
   "license": "MIT",
   "keywords": [
     "positioning",

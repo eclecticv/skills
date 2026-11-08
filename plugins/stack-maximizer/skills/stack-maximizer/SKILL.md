@@ -6,7 +6,7 @@ compatibility: Python 3.9+ (stdlib). Optional dig for DNS and Playwright for ren
 metadata:
   author: And/or Labs
   version: "0.1.0"
-  repository: https://github.com/eclecticv/stack-maximizer
+  repository: https://github.com/eclecticv/skills
 ---
 
 # Stack Maximizer

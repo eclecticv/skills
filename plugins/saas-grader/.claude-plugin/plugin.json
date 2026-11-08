@@ -4,5 +4,8 @@
   "description": "Score SaaS websites against 47 research-backed optimization rules from peer-reviewed marketing science. One command: /saas-grader:saas",
   "author": {
     "name": "And/or Labs"
-  }
+  },
+  "homepage": "https://github.com/eclecticv/skills/tree/main/plugins/saas-grader",
+  "repository": "https://github.com/eclecticv/skills",
+  "license": "MIT"
 }

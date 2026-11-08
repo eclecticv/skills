@@ -6,11 +6,17 @@
     "name": "And/or Labs",
     "email": "vj@andorlabs.ca"
   },
-  "homepage": "https://github.com/eclecticv/rand-brief",
-  "repository": "https://github.com/eclecticv/rand-brief",
+  "homepage": "https://github.com/eclecticv/skills/tree/main/plugins/rand-brief",
+  "repository": "https://github.com/eclecticv/skills",
   "license": "MIT",
   "keywords": [
-    "branding", "logo", "identity", "design-brief", "paul-rand",
-    "typography", "design", "brand-audit"
+    "branding",
+    "logo",
+    "identity",
+    "design-brief",
+    "paul-rand",
+    "typography",
+    "design",
+    "brand-audit"
   ]
 }

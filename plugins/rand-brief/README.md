@@ -37,7 +37,7 @@ It closes with a verified Rand quote — the tool refuses to use quotes that can
 ### Claude Code (plugin)
 
 ```
-/plugin marketplace add eclecticv/andorlabs
+/plugin marketplace add eclecticv/skills
 /plugin install rand-brief@andorlabs
 ```
 
@@ -48,7 +48,7 @@ Then `/rand-brief <url>` works in any session.
 The skill lives at `skills/rand-brief/SKILL.md` in the open Agent Skills format:
 
 ```bash
-npx skills add eclecticv/rand-brief --skill rand-brief
+npx skills add eclecticv/skills --skill rand-brief
 ```
 
 ### Any agent at all
@@ -56,8 +56,8 @@ npx skills add eclecticv/rand-brief --skill rand-brief
 Clone the repo and point your agent at it. `AGENTS.md` tells it what to do:
 
 ```bash
-git clone https://github.com/eclecticv/rand-brief
-# then: "Read AGENTS.md in ./rand-brief and run a Rand brief on https://yourbrand.com"
+git clone https://github.com/eclecticv/skills
+# then: "Read AGENTS.md in ./skills/plugins/rand-brief and run a Rand brief on https://yourbrand.com"
 ```
 
 ---

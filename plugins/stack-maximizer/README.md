@@ -22,14 +22,14 @@ An agent skill that audits a company's internal go-to-market stack from evidence
 **Any agent, via [skills.sh](https://skills.sh):**
 
 ```bash
-npx skills add eclecticv/stack-maximizer
+npx skills add eclecticv/skills --skill stack-maximizer
 ```
 
 **Claude Code plugin:**
 
 ```
-/plugin marketplace add eclecticv/stack-maximizer
-/plugin install stack-maximizer@stack-maximizer
+/plugin marketplace add eclecticv/skills
+/plugin install stack-maximizer@andorlabs
 ```
 
 **Manual:** copy `skills/stack-maximizer/` into your agent's skills folder (for Claude Code, `~/.claude/skills/`).

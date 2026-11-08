@@ -6,8 +6,8 @@
     "name": "And/or Labs",
     "email": "vj@andorlabs.ca"
   },
-  "homepage": "https://github.com/eclecticv/stack-maximizer",
-  "repository": "https://github.com/eclecticv/stack-maximizer",
+  "homepage": "https://github.com/eclecticv/skills/tree/main/plugins/stack-maximizer",
+  "repository": "https://github.com/eclecticv/skills",
   "license": "MIT",
   "keywords": [
     "go-to-market",

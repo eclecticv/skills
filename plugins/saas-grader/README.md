@@ -4,8 +4,14 @@ Score SaaS websites against 47 research-backed optimization rules from peer-revi
 
 ## Install
 
+```
+/plugin marketplace add eclecticv/skills
+/plugin install saas-grader@andorlabs
+```
+
+Any agent, via [skills.sh](https://skills.sh):
 ```bash
-claude /install saas-grader@andorlabs
+npx skills add eclecticv/skills --skill saas-grader
 ```
 
 Or load for a single session:

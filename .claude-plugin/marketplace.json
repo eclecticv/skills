@@ -1,0 +1,116 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "andorlabs",
+  "description": "And/or Labs skills for GTM, positioning, brand and building in public.",
+  "owner": {
+    "name": "And/or Labs",
+    "email": "vj@andorlabs.ca"
+  },
+  "plugins": [
+    {
+      "name": "stack-maximizer",
+      "source": "./plugins/stack-maximizer",
+      "description": "Audits your internal GTM software stack from local evidence (receipts, website tags, DNS, browser usage, repos, AI chat logs), confirms it with you once, then scores keep/kill deterministically, gives every kept tool one core function, flags missing B2B essentials, and writes a 30/60/90 roadmap.",
+      "version": "0.1.0",
+      "author": {
+        "name": "And/or Labs",
+        "email": "vj@andorlabs.ca"
+      },
+      "category": "marketing",
+      "tags": [
+        "go-to-market",
+        "martech",
+        "revops",
+        "saas-spend",
+        "stack-audit",
+        "b2b"
+      ],
+      "homepage": "https://github.com/eclecticv/skills/tree/main/plugins/stack-maximizer"
+    },
+    {
+      "name": "fix-my-positioning",
+      "source": "./plugins/fix-my-positioning",
+      "description": "Grades B2B startup positioning against five non-overlapping frameworks (Dunford, JTBD/ODI, Raskin, VPC, Challenger) on a 0–10 scale, applies Fletch PMM execution-layer critique to the homepage, and generates three alternative positioning variants with H1 + subhead + features + tradeoff analysis.",
+      "version": "0.1.0",
+      "author": {
+        "name": "And/or Labs",
+        "email": "vj@andorlabs.ca"
+      },
+      "category": "marketing",
+      "tags": [
+        "positioning",
+        "b2b",
+        "saas",
+        "messaging",
+        "homepage",
+        "go-to-market",
+        "pmm",
+        "dunford",
+        "fletch"
+      ],
+      "homepage": "https://github.com/eclecticv/skills/tree/main/plugins/fix-my-positioning"
+    },
+    {
+      "name": "saas-grader",
+      "source": "./plugins/saas-grader",
+      "description": "Score SaaS websites against 47 research-backed optimization rules from peer-reviewed marketing science. One command: /saas-grader:saas",
+      "version": "3.1.0",
+      "author": {
+        "name": "And/or Labs",
+        "email": "vj@andorlabs.ca"
+      },
+      "category": "marketing",
+      "tags": [
+        "saas",
+        "conversion-optimization",
+        "pricing",
+        "onboarding",
+        "growth",
+        "marketing-science",
+        "audit"
+      ],
+      "homepage": "https://github.com/eclecticv/skills/tree/main/plugins/saas-grader"
+    },
+    {
+      "name": "rand-brief",
+      "source": "./plugins/rand-brief",
+      "description": "Analyzes an existing brand the way Paul Rand would: name semantics first, then the idea: and writes a one-page design brief proposing a mark direction, typeface pairings, and a flat color palette, argued as a single confident recommendation in the style of Rand's NeXT presentation booklet.",
+      "version": "0.1.2",
+      "author": {
+        "name": "And/or Labs",
+        "email": "vj@andorlabs.ca"
+      },
+      "category": "design",
+      "tags": [
+        "branding",
+        "logo",
+        "identity",
+        "design-brief",
+        "paul-rand",
+        "typography",
+        "brand-audit"
+      ],
+      "homepage": "https://github.com/eclecticv/skills/tree/main/plugins/rand-brief"
+    },
+    {
+      "name": "build-in-public",
+      "source": "./plugins/build-in-public",
+      "description": "Observes your Claude Code sessions and git commits, surfaces share-worthy moments, and drafts privacy-gated, algorithm-tuned X and LinkedIn posts in your voice. Never auto-publishes.",
+      "version": "0.1.0",
+      "author": {
+        "name": "And/or Labs",
+        "email": "vj@andorlabs.ca"
+      },
+      "category": "productivity",
+      "tags": [
+        "build-in-public",
+        "social",
+        "linkedin",
+        "x",
+        "content",
+        "devrel"
+      ],
+      "homepage": "https://github.com/eclecticv/skills/tree/main/plugins/build-in-public"
+    }
+  ]
+}
