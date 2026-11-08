@@ -1,0 +1,7 @@
+.DS_Store
+__pycache__/
+*.pyc
+.claude/*.local.md
+# Audit output holds private mail and browsing metadata. Never commit it.
+stack-maximizer-*/
+.scratch/
