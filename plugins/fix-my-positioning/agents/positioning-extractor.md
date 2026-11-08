@@ -1,25 +1,25 @@
 ---
 name: positioning-extractor
-description: Use this agent when the fix-my-positioning skill needs to fetch a B2B startup's homepage, parse it for positioning signals (hero H1, subhead, CTAs, social proof, category claims, named audiences), and run the Fletch PMM detector module against the extracted copy. The agent returns structured markdown the skill can score against the five frameworks. Examples:
+description: |-
+  Use this agent when the fix-my-positioning skill needs to fetch a B2B startup's homepage, parse it for positioning signals (hero H1, subhead, CTAs, social proof, category claims, named audiences), and run the Fletch PMM detector module against the extracted copy. The agent returns structured markdown the skill can score against the five frameworks. Examples:
 
-<example>
-Context: The fix-my-positioning skill has just received a URL and is starting the EXTRACTION stage of its pipeline.
-user: "/fix-my-positioning https://example.com"
-assistant: "I'll dispatch the positioning-extractor agent to fetch the homepage, parse the hero and above-the-fold elements, and run the Fletch detector module before scoring."
-<commentary>
-The skill orchestrator delegates extraction so raw HTML stays out of the main context. The agent returns a clean structured markdown summary the orchestrator can reason over.
-</commentary>
-</example>
+  <example>
+  Context: The fix-my-positioning skill has just received a URL and is starting the EXTRACTION stage of its pipeline.
+  user: "/fix-my-positioning https://example.com"
+  assistant: "I'll dispatch the positioning-extractor agent to fetch the homepage, parse the hero and above-the-fold elements, and run the Fletch detector module before scoring."
+  <commentary>
+  The skill orchestrator delegates extraction so raw HTML stays out of the main context. The agent returns a clean structured markdown summary the orchestrator can reason over.
+  </commentary>
+  </example>
 
-<example>
-Context: The skill is auditing a SaaS company's homepage and needs verbatim hero copy plus the 13 + 7 Fletch detector results.
-user: "Audit this startup's positioning: https://acmehq.io"
-assistant: "Let me invoke the positioning-extractor agent to capture the homepage copy verbatim and run the Fletch detector module."
-<commentary>
-Verbatim extraction matters because the scoring rubrics require exact quotes as evidence. Subjective paraphrasing would corrupt the audit.
-</commentary>
-</example>
-
+  <example>
+  Context: The skill is auditing a SaaS company's homepage and needs verbatim hero copy plus the 13 + 7 Fletch detector results.
+  user: "Audit this startup's positioning: https://acmehq.io"
+  assistant: "Let me invoke the positioning-extractor agent to capture the homepage copy verbatim and run the Fletch detector module."
+  <commentary>
+  Verbatim extraction matters because the scoring rubrics require exact quotes as evidence. Subjective paraphrasing would corrupt the audit.
+  </commentary>
+  </example>
 model: inherit
 color: cyan
 tools: ["WebFetch", "WebSearch", "Read"]
