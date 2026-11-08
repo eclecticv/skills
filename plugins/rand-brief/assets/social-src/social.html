@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500&display=block">
+<style>
+  /* Fonts: the exact self-hosted files from ~/Developer/andor-labs/public/fonts */
+  @font-face { font-family:"Departure Mono"; src:url("DepartureMono-Regular.woff2") format("woff2"); font-weight:400; }
+  @font-face { font-family:"Instrument Serif"; src:url("InstrumentSerif-Regular.woff2") format("woff2"); font-weight:400; font-style:normal; }
+  @font-face { font-family:"Instrument Serif"; src:url("InstrumentSerif-Italic.woff2") format("woff2"); font-weight:400; font-style:italic; }
+
+  /* And/or Labs tokens, verbatim from src/styles/tokens/ */
+  :root {
+    --ink-900:#14151A; --ink-800:#25272E; --ink-500:#6D717B; --ink-400:#9398A1; --ink-200:#D8DAE0;
+    --paper:#FFFFFF; --pink-050:#FCF4F4; --copper-600:#9A5A2D;
+    --blue-500:#1B4DFF;
+    --font-display:"Instrument Serif", ui-serif, Georgia, serif;
+    --font-serif:"Newsreader", ui-serif, Georgia, serif;
+    --font-mono:"Departure Mono", ui-monospace, Menlo, monospace;
+    --radius-md:5px;
+    --shadow-hard:3px 3px 0 0 var(--ink-900);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:1280px; height:640px; overflow:hidden; }
+  body {
+    background-color:var(--paper);
+    background-image:url("texture.svg");
+    background-repeat:repeat;
+    color:var(--ink-900);
+    display:flex;
+  }
+
+  /* ---------- left: title block ---------- */
+  .left {
+    width:472px; height:100%;
+    padding:62px 0 52px 64px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .eyebrow {
+    font-family:var(--font-mono);
+    font-size:13px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-500);
+    margin-bottom:26px;
+  }
+  h1 {
+    font-family:var(--font-display); font-weight:400;
+    font-size:97px; line-height:1.02; letter-spacing:-0.015em;
+    color:var(--ink-900);
+  }
+  h1 .dash { color:var(--blue-500); }
+  .sub {
+    margin-top:24px;
+    font-family:var(--font-serif); font-weight:400;
+    font-size:21px; line-height:1.5; color:var(--ink-800);
+    max-width:335px;
+  }
+  .term {
+    margin-top:26px;
+    display:inline-block;
+    font-family:var(--font-mono); font-size:13px; letter-spacing:0.02em;
+    color:var(--ink-800);
+    background:var(--pink-050);
+    border:1px solid var(--ink-900);
+    border-radius:var(--radius-md);
+    box-shadow:2px 2px 0 0 var(--ink-900);
+    padding:9px 14px;
+  }
+  .term .prompt { color:var(--blue-500); }
+  .credit {
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.04em;
+    color:var(--ink-400); line-height:1.75;
+  }
+  .credit .strong { color:var(--ink-900); }
+
+  /* ---------- right: the wall of marks ---------- */
+  .wall {
+    flex:1; height:100%;
+    padding:44px 56px 44px 24px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:188px 1fr 1fr;
+    gap:17px;
+  }
+  .cell {
+    background:var(--paper);
+    border:1px solid var(--ink-900);
+    border-radius:var(--radius-md);
+    box-shadow:var(--shadow-hard);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .cell .year {
+    position:absolute; bottom:10px; right:13px;
+    font-family:var(--font-mono);
+    font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-400);
+  }
+  .ibm { grid-column:1 / span 2; }
+  .ibm img { height:76px; }
+  .abc img { height:110px; }
+  .west .crop { width:118px; height:118px; overflow:hidden; }
+  .west .crop img { height:118px; display:block; }
+  .ups img { height:128px; }
+  .next-cell { background:var(--ink-900); }
+  .next-cell img { height:120px; }
+  .next-cell .year { color:#7d818c; }
+</style>
+</head>
+<body>
+  <div class="left">
+    <div>
+      <div class="eyebrow">A plugin for AI coding agents</div>
+      <h1>rand<span class="dash">-</span>brief</h1>
+      <div class="sub">Your brand, taken apart and rebuilt the way Paul&nbsp;Rand worked. One page. One idea. No&nbsp;options.</div>
+      <div class="term"><span class="prompt">$</span> /rand-brief yourbrand.com</div>
+    </div>
+    <div class="credit">
+      <span class="strong">Paul Rand</span> · 1914–1996<br>
+      IBM · ABC · UPS · Westinghouse · NeXT<br>
+      <span class="strong">And/or Labs</span> · andorlabs.ca
+    </div>
+  </div>
+  <div class="wall">
+    <div class="cell ibm"><img src="marks/ibm.svg"><span class="year">IBM · 1972</span></div>
+    <div class="cell abc"><img src="marks/abc.svg"><span class="year">ABC · 1962</span></div>
+    <div class="cell west"><div class="crop"><img src="marks/westinghouse-rand.png"></div><span class="year">Westinghouse · 1960</span></div>
+    <div class="cell ups"><img src="marks/ups.svg"><span class="year">UPS · 1961</span></div>
+    <div class="cell next-cell"><img src="marks/next.svg"><span class="year" style="text-transform:none">NeXT · 1986</span></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "rand-brief",
+  "version": "0.1.2",
+  "description": "Analyzes an existing brand the way Paul Rand would — name semantics first, then the idea — and writes a one-page design brief proposing a mark direction, typeface pairings, and a flat color palette, argued as a single confident recommendation in the style of Rand's NeXT presentation booklet.",
+  "author": {
+    "name": "And/or Labs",
+    "email": "vj@andorlabs.ca"
+  },
+  "homepage": "https://github.com/eclecticv/rand-brief",
+  "repository": "https://github.com/eclecticv/rand-brief",
+  "license": "MIT",
+  "keywords": [
+    "branding", "logo", "identity", "design-brief", "paul-rand",
+    "typography", "design", "brand-audit"
+  ]
+}
