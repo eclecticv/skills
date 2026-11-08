@@ -1,0 +1,24 @@
+{
+  "name": "stack-maximizer",
+  "version": "0.1.0",
+  "description": "Audits your internal GTM software stack from local evidence (receipts, website tags, DNS, browser usage, repos, AI chat logs), confirms it with you once, then scores keep/kill deterministically, gives every kept tool one core function, flags missing B2B essentials, and writes a 30/60/90 roadmap.",
+  "author": {
+    "name": "And/or Labs",
+    "email": "vj@andorlabs.ca"
+  },
+  "homepage": "https://github.com/eclecticv/stack-maximizer",
+  "repository": "https://github.com/eclecticv/stack-maximizer",
+  "license": "MIT",
+  "keywords": [
+    "go-to-market",
+    "gtm",
+    "martech",
+    "revops",
+    "saas-spend",
+    "stack-audit",
+    "b2b",
+    "marketing-ops",
+    "sales-ops"
+  ],
+  "icon": ".claude-plugin/icon.png"
+}

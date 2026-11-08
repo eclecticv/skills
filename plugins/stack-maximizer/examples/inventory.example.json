@@ -1,0 +1,16 @@
+{
+  "company": "Example Co",
+  "stage": "founder",
+  "motion": "hybrid",
+  "tools": [
+    {"name": "HubSpot", "status": "using", "capabilities": ["crm", "map", "forms", "social_scheduling"], "monthly_cost": 20, "usage": 3, "integrations": ["Calendly", "Zapier"], "lock_in": 2},
+    {"name": "Mailchimp", "status": "using", "capabilities": ["map"], "monthly_cost": 30, "usage": 1, "integrations": [], "lock_in": 0},
+    {"name": "Buffer", "status": "using", "capabilities": ["social_scheduling"], "monthly_cost": 6, "usage": 2, "integrations": [], "lock_in": 0},
+    {"name": "Calendly", "status": "using", "capabilities": ["scheduling"], "monthly_cost": 12, "usage": 2, "integrations": ["HubSpot"], "lock_in": 0},
+    {"name": "Zapier", "status": "using", "capabilities": ["workflow_automation"], "monthly_cost": 30, "usage": 1, "integrations": ["HubSpot"], "lock_in": 1},
+    {"name": "Make", "status": "trial", "capabilities": ["workflow_automation"], "monthly_cost": 9, "usage": 1, "integrations": [], "lock_in": 0},
+    {"name": "Hotjar", "status": "unused", "capabilities": ["session_replay"], "monthly_cost": 39, "usage": 0},
+    {"name": "RB2B", "status": "unused", "capabilities": ["visitor_deanon"], "monthly_cost": null, "usage": 0},
+    {"name": "Stripe", "status": "product", "capabilities": []}
+  ]
+}
