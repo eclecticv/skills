@@ -1,0 +1,8 @@
+{
+  "name": "saas-grader",
+  "version": "3.1.0",
+  "description": "Score SaaS websites against 47 research-backed optimization rules from peer-reviewed marketing science. One command: /saas-grader:saas",
+  "author": {
+    "name": "And/or Labs"
+  }
+}
